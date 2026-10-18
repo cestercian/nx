@@ -24,7 +24,7 @@ import {
 } from '@nx/js/internal';
 import { getLockFileName } from '@nx/js';
 import { readdirSync } from 'fs';
-import { join, dirname, isAbsolute, relative } from 'path';
+import { basename, dirname, isAbsolute, join, relative } from 'path';
 import { minimatch } from 'minimatch';
 import type { RsbuildConfig } from '@rsbuild/core';
 export interface RsbuildPluginOptions {
@@ -412,7 +412,7 @@ function getServerReadyWhen(
   return {
     signal: true,
     fallback: {
-      command: `node -e "require('@nx/rsbuild/ready-check').waitForDevServer(process.argv[1], '${command}')" "${configFilePath}"`,
+      command: `node -e "require('@nx/rsbuild/ready-check').waitForDevServer(process.argv[1], '${command}')" ${basename(configFilePath)}`,
       // Each attempt loads the config
       interval: 1000,
     },
